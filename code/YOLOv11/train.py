@@ -1,8 +1,17 @@
 from ultralytics import YOLO
 
-model = YOLO('yolo11n.yaml')
+if __name__ == '__main__':
+    model = YOLO('yolo11n.pt')
 
-results = model.train(data='conf.yaml', epochs=1)
-results = model.val()
+    results = model.train(
+        data='conf.yaml',
+        epochs=200,
+        patience=25,
+        batch=16,
+        imgsz=640,
+        workers=8,
+        name='exp_medium_dataset'
+    )
 
-results = model.export(format='onnx')
+    model.val()
+    model.export(format='onnx')

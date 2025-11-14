@@ -1,13 +1,16 @@
 from ultralytics import YOLO
+from ray import tune
 
 if __name__ == '__main__':
     model = YOLO('yolo11n.pt')
 
     # Define search space
+    # Search for the best values for these hyperparams
+    # between respective ranges
     search_space = {
-        "lr0": (1e-5, 1e-1),
-        "batch": [int(4), int(8), int(16)],
-        "epochs": [int(50), int(100), int(200)]
+        "lr0": tune.uniform(1e-5, 1e-1),
+        "batch": tune.randint(4, 16),
+        "epochs": tune.randint(50, 200)
     }
 
     results = model.tune(
@@ -15,10 +18,11 @@ if __name__ == '__main__':
         space=search_space,
         patience=25, # Not a standard hyperparameter
         imgsz=640,
-        workers=16,
-        name='hyperparameter_tuning'
+        workers=8,
+        name='hyperparameter_tuning',
+        use_ray=True,
+        device=0,
+        gpu_per_trial=1
     )
 
     # Add Resume=True to the tune command if resuming already started training
-
-    model.export(format='onnx')

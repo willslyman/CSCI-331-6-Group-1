@@ -14,15 +14,16 @@ if __name__ == '__main__':
     }
 
     results = model.tune(
-        data='D:\Profiles\whs1585\Desktop\AIProject\code\YOLOv11\conf.yaml',
+        data="C:/Users/12162/OneDrive/Documents/RIT Files/IntroToAI/CSCI-331-6-Group-1/code/YOLOv11/conf.yaml",
         space=search_space,
         patience=25, # Not a standard hyperparameter
         imgsz=640,
-        workers=8,
+        workers=4,
         name='hyperparameter_tuning',
         use_ray=True,
         device=0,
-        gpu_per_trial=1
+        gpu_per_trial=1,
+        resume=True
     )
 
-    # Add Resume=True to the tune command if resuming already started training
+    # Add resume=True to the tune command if resuming already started training

@@ -1,0 +1,6 @@
+{
+  "batch": 5,
+  "data": "C:/Users/12162/OneDrive/Documents/RIT Files/IntroToAI/CSCI-331-6-Group-1/code/YOLOv11/conf.yaml",
+  "epochs": 63,
+  "lr0": 0.04130619361051805
+}

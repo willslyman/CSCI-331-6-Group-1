@@ -12,18 +12,24 @@ if __name__ == '__main__':
         "batch": tune.randint(4, 16),
         "epochs": tune.randint(50, 200)
     }
-
-    results = model.tune(
-        data="C:/Users/12162/OneDrive/Documents/RIT Files/IntroToAI/CSCI-331-6-Group-1/code/YOLOv11/conf.yaml",
-        space=search_space,
-        patience=25, # Not a standard hyperparameter
-        imgsz=640,
-        workers=4,
-        name='hyperparameter_tuning',
-        use_ray=True,
-        device=0,
-        gpu_per_trial=1,
-        resume=True
-    )
+    
+    while True:
+        try:
+            results = model.tune(
+                data="C:/Users/12162/OneDrive/Documents/RIT Files/IntroToAI/CSCI-331-6-Group-1/code/YOLOv11/conf.yaml",
+                space=search_space,
+                patience=25, # Not a standard hyperparameter
+                imgsz=640,
+                workers=4,
+                name='hyperparameter_tuning',
+                use_ray=True,
+                device=0,
+                gpu_per_trial=1,
+                resume=True
+            )
+            if results != None:
+                break
+        except:
+            pass
 
     # Add resume=True to the tune command if resuming already started training

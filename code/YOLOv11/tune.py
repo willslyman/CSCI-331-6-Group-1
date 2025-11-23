@@ -1,8 +1,90 @@
 from ultralytics import YOLO
 from ray import tune
+from ray.tune import ExperimentAnalysis
+import sys
+import matplotlib.pyplot as plt
+
+RUN_TUNER = False
 
 if __name__ == '__main__':
     model = YOLO('yolo11n.pt')
+
+    if not RUN_TUNER:
+        experiment_path = "C:/Users/12162/OneDrive/Documents/RIT Files/IntroToAI/CSCI-331-6-Group-1/code/YOLOv11/runs/detect/hyperparameter_tuning"
+        analysis = ExperimentAnalysis(experiment_path)
+        
+        df = analysis.dataframe()
+        
+        ### Print best hyperparams for mAP50 ###
+        # From https://docs.ultralytics.com/guides/yolo-performance-metrics/#class-wise-metrics
+        # mAP50: Mean average precision calculated at an intersection over union (IoU) threshold of 0.50. 
+        
+        # It's a measure of the model's accuracy considering only the "easy" detections.
+        print("Best Config (mAP50): ", analysis.get_best_config(
+            metric="metrics/mAP50(B)",
+            mode="max"
+        ))
+
+        ### Print best hyperparams for mAP50-95 ###
+        # From https://docs.ultralytics.com/guides/yolo-performance-metrics/#class-wise-metrics
+        # The average of the mean average precision calculated at varying IoU thresholds,
+        # ranging from 0.50 to 0.95.
+
+        # It gives a comprehensive view of the model's performance across
+        # different levelsof detection difficulty.
+        print("Best Config (mAP50-95): ", analysis.get_best_config(
+            metric="metrics/mAP50-95(B)",
+            mode="max"
+        ))
+        
+        fig1, ax1 = plt.subplots() # mAP50-95 over trials
+        ax1.set_title('mAP50-95(B) v.s. Trials')
+        ax1.set_xlabel('Trials')
+        ax1.set_ylabel('mAP50-95(B)')
+       
+        fig2, ax2 = plt.subplots() # F1 Scores over trials
+        ax2.set_title('F1 Scores v.s. Trials')
+        ax2.set_xlabel('Trials')
+        ax2.set_ylabel('F1 Score')
+
+        fig3, ax3 = plt.subplots() # mAP50-95 v.s. Epochs (for all iterations)
+        ax3.set_title('Overall Hyperparameter Tuning Results:\nmAP50-95(B) v.s. Epochs')
+        ax3.set_xlabel('Epochs')
+        ax3.set_ylabel('mAP50-95(B)')
+        
+        # Ensure only one value per trial
+        plot_df = df.drop_duplicates(subset='trial_id', keep='first').sort_values(by='trial_id')
+        
+        # Get trials, sorted from 0 to 9
+        x_trials = plot_df['trial_id'].rank(method='dense').astype(int) 
+        ax1.set_xticks(x_trials)
+        ax2.set_xticks(x_trials)
+
+        # Get accuracy and f1 score
+        y_accuracy = plot_df["metrics/mAP50-95(B)"]
+        y_f1 = (2 * plot_df["metrics/precision(B)"] * plot_df["metrics/recall(B)"]) / (plot_df["metrics/precision(B)"] + plot_df["metrics/recall(B)"])
+        
+        # Plot change in both over 10 mutations
+        ax1.plot(x_trials, y_accuracy)
+        ax2.plot(x_trials, y_f1)
+
+        # Plot combination of all iterations
+        dfs = dict(sorted(analysis.trial_dataframes.items()))
+        for path, trial_df in dfs.items():
+            lr0 = str(round(trial_df['config/lr0'][0], 3))
+            batch = str(trial_df['config/batch'][0])
+            id = path[-1]
+
+            ax3.plot(
+                trial_df['training_iteration'],
+                trial_df['metrics/mAP50-95(B)'],
+                alpha=0.5,
+                label=(id + ": lr0 = " + lr0 + ", batch = " + batch)
+            )
+        ax3.legend()
+        plt.show()
+
+        sys.exit(0)
 
     # Define search space
     # Search for the best values for these hyperparams

@@ -51,6 +51,16 @@ if __name__ == '__main__':
         ax3.set_title('Overall Hyperparameter Tuning Results:\nmAP50-95(B) v.s. Epochs')
         ax3.set_xlabel('Epochs')
         ax3.set_ylabel('mAP50-95(B)')
+
+        fig4, ax4 = plt.subplots() # Precision over trials
+        ax4.set_title('Precision v.s. Trials')
+        ax4.set_xlabel('Trials')
+        ax4.set_ylabel('Precision')
+
+        fig5, ax5 = plt.subplots() # Recall over trials
+        ax5.set_title('Recall v.s. Trials')
+        ax5.set_xlabel('Trials')
+        ax5.set_ylabel('Recall')
         
         # Ensure only one value per trial
         plot_df = df.drop_duplicates(subset='trial_id', keep='first').sort_values(by='trial_id')
@@ -59,14 +69,21 @@ if __name__ == '__main__':
         x_trials = plot_df['trial_id'].rank(method='dense').astype(int) 
         ax1.set_xticks(x_trials)
         ax2.set_xticks(x_trials)
+        ax4.set_xticks(x_trials)
+        ax5.set_xticks(x_trials)
 
         # Get accuracy and f1 score
         y_accuracy = plot_df["metrics/mAP50-95(B)"]
         y_f1 = (2 * plot_df["metrics/precision(B)"] * plot_df["metrics/recall(B)"]) / (plot_df["metrics/precision(B)"] + plot_df["metrics/recall(B)"])
         
-        # Plot change in both over 10 mutations
+        y_precision = plot_df["metrics/precision(B)"]
+        y_recall = plot_df["metrics/recall(B)"]
+        
+        # Plot change in all over 10 mutations
         ax1.plot(x_trials, y_accuracy)
         ax2.plot(x_trials, y_f1)
+        ax4.plot(x_trials, y_precision)
+        ax5.plot(x_trials, y_recall)
 
         # Plot combination of all iterations
         dfs = dict(sorted(analysis.trial_dataframes.items()))

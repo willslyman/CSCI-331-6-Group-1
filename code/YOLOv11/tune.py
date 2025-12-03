@@ -10,7 +10,7 @@ if __name__ == '__main__':
     model = YOLO('yolo11n.pt')
 
     if not RUN_TUNER:
-        experiment_path = "C:/Users/12162/OneDrive/Documents/RIT Files/IntroToAI/CSCI-331-6-Group-1/code/YOLOv11/runs/detect/hyperparameter_tuning"
+        experiment_path = "./runs/detect/hyperparameter_tuning"
         analysis = ExperimentAnalysis(experiment_path)
         
         df = analysis.dataframe()
@@ -101,6 +101,7 @@ if __name__ == '__main__':
         ax3.legend()
         plt.show()
 
+        # Exit
         sys.exit(0)
 
     # Define search space
@@ -115,7 +116,7 @@ if __name__ == '__main__':
     while True:
         try:
             results = model.tune(
-                data="C:/Users/12162/OneDrive/Documents/RIT Files/IntroToAI/CSCI-331-6-Group-1/code/YOLOv11/conf.yaml",
+                data="./conf.yaml",
                 space=search_space,
                 patience=25, # Not a standard hyperparameter
                 imgsz=640,

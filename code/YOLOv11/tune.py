@@ -117,7 +117,7 @@ if __name__ == '__main__':
     while True:
         try:
             results = model.tune(
-                data="./code/YOLOv11/conf.yaml",
+                data=Path("./code/YOLOv11/conf.yaml").resolve(),
                 space=search_space,
                 patience=25, # Not a standard hyperparameter
                 imgsz=640,

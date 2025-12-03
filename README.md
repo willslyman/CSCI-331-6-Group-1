@@ -9,6 +9,7 @@ Leo Grover
 Will Slyman
 
 ## How to Run
+- **WARNING:** Depending on your OS and your Python install, you may need to tweaks the directory paths in the code to be **absolute** to make it run.
 - Import all dependcies required on Python version 13.12.
 - To run the training, run `train.py`
 - To find the best Hyperparameters, set `RUN_TUNER` to `True` and run `tune.py`

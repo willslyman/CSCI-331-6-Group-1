@@ -10,7 +10,7 @@ if __name__ == '__main__':
     model = YOLO('yolo11n.pt')
 
     if not RUN_TUNER:
-        experiment_path = "./runs/detect/hyperparameter_tuning"
+        experiment_path = "./code/YOLOv11/runs/detect/hyperparameter_tuning"
         analysis = ExperimentAnalysis(experiment_path)
         
         df = analysis.dataframe()
@@ -116,7 +116,7 @@ if __name__ == '__main__':
     while True:
         try:
             results = model.tune(
-                data="./conf.yaml",
+                data="./code/YOLOv11/conf.yaml",
                 space=search_space,
                 patience=25, # Not a standard hyperparameter
                 imgsz=640,

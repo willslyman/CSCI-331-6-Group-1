@@ -1,12 +1,12 @@
 # CSCI-331-6-Group-1
 
 ## Abstract: 
-This is our group project for Intro to Artificial Intelligence. It uses YOLO v11 to identify traffic signs in images. The project includes both a training run (`train.py`), tuning run (`tune.py`), and a prediction (`predict-random.py`).
+This is our group project for Intro to Artificial Intelligence. It uses YOLO v11 to identify traffic signs in images. The project includes both a training run (`train.py`), tuning run (`tune.py`), and a prediction script for testing the model (`predict-random.py`).
 
 ## List of Developers
-Adam Rigdon
-Leo Grover
-Will Slyman
+- Adam Rigdon
+- Leo Grover
+- Will Slyman
 
 ## How to Run
 - **WARNING:** Depending on your OS and your Python install, you may need to tweaks the directory paths in the code to be **absolute** to make it run.

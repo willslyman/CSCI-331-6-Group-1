@@ -3,6 +3,7 @@ from ray import tune
 from ray.tune import ExperimentAnalysis
 import sys
 import matplotlib.pyplot as plt
+from pathlib import Path
 
 RUN_TUNER = False
 
@@ -10,8 +11,8 @@ if __name__ == '__main__':
     model = YOLO('yolo11n.pt')
 
     if not RUN_TUNER:
-        experiment_path = "./code/YOLOv11/runs/detect/hyperparameter_tuning"
-        analysis = ExperimentAnalysis(experiment_path)
+        experiment_path = Path("./code/YOLOv11/runs/detect/hyperparameter_tuning").resolve()
+        analysis = ExperimentAnalysis(str(experiment_path))
         
         df = analysis.dataframe()
         

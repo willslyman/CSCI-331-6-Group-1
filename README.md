@@ -9,8 +9,8 @@ This is our group project for Intro to Artificial Intelligence. It uses YOLO v11
 - Will Slyman
 
 ## How to Run
-- **WARNING:** Depending on your OS and your Python install, you may need to tweaks the directory paths in the code to be **absolute** to make it run.
-- Import all dependcies required on Python version 13.12.x.
+- **WARNING:** Depending on your OS and your Python install, you may need to tweak the directory paths in the code to be **absolute** to make it run.
+- Import all dependcies required on Python version 3.12.x.
 - To run the training, run `train.py`.
 - To find the best Hyperparameters, open `tune.py` and set `RUN_TUNER` to `True`, and then run the file.
 - To get graphs for the best Hyperparameters after tuning, open `tune.py` and set `RUN_TUNER` to `False`, and then run the file.

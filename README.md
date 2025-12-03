@@ -13,5 +13,5 @@ This is our group project for Intro to Artificial Intelligence. It uses YOLO v11
 - Import all dependcies required on Python version 13.12.x.
 - To run the training, run `train.py`.
 - To find the best Hyperparameters, open `tune.py` and set `RUN_TUNER` to `True`, and then run the file.
-- To get graphs for the best Hyperparameters after tuning, en `tune.py` and set `RUN_TUNER` to `False`, and then run the file.
+- To get graphs for the best Hyperparameters after tuning, open `tune.py` and set `RUN_TUNER` to `False`, and then run the file.
 - To test the model on 20 random images, run `predict-random.py`.
